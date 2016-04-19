@@ -4,116 +4,150 @@
 # Homework 3 , Group problem
 # Due date: 09/15
 #############################
-
 # Set the path to our folder
 getwd()
 dir = "Historical prices/"
-
 source("HMWK#1.R")
 library(shiny)
-
+library(ggplot2)
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
-  
   # Application title
   titlePanel("Customer Sentiment Analytics"),
-  
   # Side panel design
   sidebarLayout(
     sidebarPanel(
-
-      # Slide bar
-      selectInput("var",
-                  label = "Choose an Industry",
-                  choices = col[!col %in% c("Beauty")],
-                  selected = "XOM"),
-      
-      
-      # Slide bar
-      selectInput("var",
-                  label = "Choose a Category",
-                  choices = col[!col %in% c("Beauty")],
-                  selected = "XOM"),
-      
-      # Slide bar
-      selectInput("comp",
-                  label = "Choose a Brand",
-                  choices = col[!col %in% c("Lipsticks")],
-                  selected = "IPWR"),
-      
-      selectInput("comp",
-                  label = "Choose a SKU",
-                  choices = col[!col %in% c("Lipsticks")],
-                  selected = "IPWR"),
-      
       # Checkbox input: whether or not to superimpose the normal distribution
-      radioButtons("radioselection","Select Mode",c("Industry Comparison", "Dimension Analysis", "Wordcloud")),
+      radioButtons("main_radioselection","Select Mode",c("Comparison of Two Industries", "Analysis of an Industry", "Comparison of Two Brands", "Analysis of a Brand")),
+       
+       conditionalPanel(
+          condition = "input.main_radioselection == 'Comparison of Two Industries'",
+            # Sidebar with a slider for the level of confidence. If 95% is chosen for example, then the
+            # confidence interval is the interval in which the value of the true mean has 95% probability
+            # to be, if repeating the operation when renewing the experiment.
+            # Slide bar
+              selectInput("c1_inds_op1",
+                          label = "Choose an Industry",
+                          choices = Industry_choices,
+                          selected = ""),
+              selectInput("c1_inds_op2",
+                          label = "Choose an Industry",
+                          choices = Industry_choices,
+                          selected = "")
+                        ),
+          conditionalPanel(
+            condition = "input.main_radioselection == 'Analysis of an Industry'",
+              # Sidebar with a slider for the level of confidence. If 95% is chosen for example, then the
+              # confidence interval is the interval in which the value of the true mean has 95% probability
+              # to be, if repeating the operation when renewing the experiment.
+            selectInput("c2_inds_op1",
+                        label = "Choose an Industry",
+                        choices = Industry_choices,
+                        selected = ""),
+              radioButtons("c2_radioselection","Select Mode",c("Comparison", "Analysis")),
+                  conditionalPanel(
+                    condition = "input.c2_radioselection == 'Comparison'",
+                   # Slide bar
+                          radioButtons("c2_radioselection_s1","Select Mode",c("Comparison between two brands", "Comparison between two categories")),
+                                  
+                               conditionalPanel(
+                                    condition = "input.c2_radioselection_s1 == 'Comparison between two brands'",
+                                        selectInput("c2_s1_brand_op1",
+                                                    label = "Choose a Brand",
+                                                    choices = Brand_choices,
+                                                    selected = ""),
+                         
+                                        selectInput("c2_s1_brand_op2",
+                                                    label = "Choose a Brand",
+                                                    choices = Brand_choices,
+                                                    selected = "")
+                                    
+                                                ),
       
+                                 conditionalPanel(
+                                       condition = "input.c2_radioselection_s2 == 'Comparison between two categories'",
+                                           selectInput("c2_s2_cat_op1",
+                                                       label = "Choose a Category",
+                                                       choices = Category_choices,
+                                                       selected = ""),
+                                           
+                                           selectInput("c2_s2_cat_op2",
+                                                       label = "Choose a Category",
+                                                       choices = Category_choices,
+                                                       selected = "")
+                                   
+                                                ),
+  
+                    conditionalPanel(
+                      condition = "input.c2_radioselection == 'Analysis'",
+                      # Slide bar
+                                  print("Opt 4 selected"),
+                                    checkboxInput(
+                                    "c2_checkbox_cat",
+                                    "Category"),
+                                  checkboxInput(
+                                    "c2_checkbox_brand",
+                                    "Brand")
+                                    )
+  
+    )
     
-      conditionalPanel(
-        condition = "input.checkbox_confidence_mean == true",
-        # Sidebar with a slider for the level of confidence. If 95% is chosen for example, then the
-        # confidence interval is the interval in which the value of the true mean has 95% probability
-        # to be, if repeating the operation when renewing the experiment.
-        sliderInput("confidence_mean",
-                    "Confidence level for the mean [%]:",
-                    min = 1,
-                    max = 100,
-                    value = 95)
-      ),
-      
-      # Checkbox input: whether or not to display the confidence interval for the mean
-      checkboxInput(
-        "checkbox_confidence_variance",
-        "Variance confidence interval",
-        value = FALSE),
-      # Condition of what to display within the side panel if checkboxed is checked.
-      conditionalPanel(
-        condition = "input.checkbox_confidence_variance == true",
-        # Sidebar with a slider for the level of confidence. If 95% is chosen for example, then the
-        # confidence interval is the interval in which the value of the true mean has 95% probability
-        # to be, if repeating the operation when renewing the experiment.
-        sliderInput("confidence_variance",
-                    "Confidence level for the variance [%]:",
-                    min = 1,
-                    max = 100,
-                    value = 95)
-      ),
-      
- 
+          ),
+    
+    
+    ###### IT STARTS HERE
+    
+    conditionalPanel(
+      condition = "input.main_radioselection == 'Comparison of Two Brands'",
+      # Sidebar with a slider for the level of confidence. If 95% is chosen for example, then the
+      # confidence interval is the interval in which the value of the true mean has 95% probability
+      # to be, if repeating the operation when renewing the experiment.
+      # Slide bar
+      selectInput("c3_brand_op1",
+                  label = "Choose a Brand",
+                  choices = Brand_choices,
+                  selected = ""),
+      selectInput("c3_brand_op2",
+                  label = "Choose a Brand",
+                  choices = Brand_choices,
+                  selected = "")
     ),
-    
+    conditionalPanel(
+      condition = "input.main_radioselection == 'Analysis of a Brand'",
+      # Sidebar with a slider for the level of confidence. If 95% is chosen for example, then the
+      # confidence interval is the interval in which the value of the true mean has 95% probability
+      # to be, if repeating the operation when renewing the experiment.
+      selectInput("c4_brand",
+                  label = "Choose a Brand",
+                  choices = Brand_choices,
+                  selected = ""),
+      radioButtons("c4_radioselection","Select Mode",c("Comparison", "Analysis")),
+      conditionalPanel(
+        condition = "input.c4_radioselection == 'Comparison'",
+          selectInput("c4_s1_cat_op1",
+                      label = "Choose a Category",
+                      choices = Category_choices,
+                      selected = ""),
+          selectInput("c4_s1_cat_op2",
+                      label = "Choose a Category",
+                      choices = Category_choices,
+                      selected = "")
+                      ),
+        conditionalPanel(
+          condition = "input.c4_radioselection == 'Analysis'",
+          # Slide bar
+          checkboxInput(
+            "c4_s2_cat",
+            "Category")
+        )
+      )
+    ),
     # Show a plot of the generated distribution, Output, Main panel
     mainPanel(
       tabsetPanel(
-        tabPanel("Stock analysis",  plotOutput("distPlot"),
-                 # Display the confidence interval numerically
-                 conditionalPanel(
-                   condition = "input.checkbox_confidence_mean == true",
-                   textOutput("CI_mean")),
-                 
-                 # Display the confidence interval numerically
-                 conditionalPanel(
-                   condition = "input.checkbox_confidence_variance == true",
-                   textOutput("CI_variance"))),
-        tabPanel("Brent-regression", plotOutput("regPlotBrent"),
-                 textOutput("textResBrent"),
-                 # Data of regression
-                 dataTableOutput("regBrentTable")),
-        tabPanel("Two stocks comparison", plotOutput("regPlotStocks"),
-                 textOutput("textResStocks"),
-                 dataTableOutput("regStocksTable"),
-                 textOutput("twoMeans"),
-                 textOutput("mean_Comp"),
-                 # Display the confidence interval numerically
-                 textOutput("CI_var"),
-                 textOutput("CI_comp")),
-        tabPanel("Time-regression", plotOutput("regPlotTime"),
-                 textOutput("textResTime"),
-                 # Data of regression
-                 dataTableOutput("regTimeTable")),
-        tabPanel("Brent prices", plotOutput("brentPlotTime"))
+        tabPanel("Time Series",  plotOutput("distPlot")
       )
     )
   )
+)
 ))
