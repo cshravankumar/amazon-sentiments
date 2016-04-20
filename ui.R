@@ -169,8 +169,8 @@ shinyUI(fluidPage(
         )
       ),
     
-    dateInput("datefrom", "From", value = "2012-02-29"),
-    dateInput("dateto", "From", value = "2012-02-29")
+    dateInput("datefrom", "From", value = "2012-02-29", format = "yyyy-mm"),
+    dateInput("dateto", "From", value = "2012-02-29", format = "yyyy-mm")
     
     
     
