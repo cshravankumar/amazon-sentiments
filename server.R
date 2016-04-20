@@ -17,12 +17,7 @@ shinyServer(function(input, output) {
   
   # Output for the main panel (and the side panel for the confidence interval)
   # Plot output
-  data_sub = reactive({
-    a <- subset(Data_Sentiments, Industry %in% input$c1_inds_op1)
-    a <- droplevels(a)
-    return(a)
-  })
- 
+
   
   output$distPlot <- renderPlot({
     #plot(Data_Sentiments$SentimentScore, type = 'l')
@@ -46,14 +41,29 @@ shinyServer(function(input, output) {
      subset(Data_Sentiments, (Data_Sentiments$Industry == input$c1_inds_op2))
       
     
+     data_sub = reactive({
+       a <- subset(Data_Sentiments, Industry %in% input$c1_inds_op1)
+       a <- droplevels(a)
+       return(a)
+     })
+     
      dd <- data_sub()
+     
+     
+     data_sub1 = reactive({
+       a <- subset(Data_Sentiments, Industry %in% input$c1_inds_op2)
+       a <- droplevels(a)
+       return(a)
+     })
+     
+     dd1 <- data_sub1()
+     
      
      
      
       #plot(c1_Subset_Data$SentimentScore, type = 'l')
       #ggplot(aes(x = Data_Sentiments$Time, y = Data_Sentiments$SentimentScore), data = Data_Sentiments) + geom_line()
-      ggplot(aes(x = dd$Time, y = dd$SentimentScore), data = dd) + geom_line()
-      #
+      ggplot(aes(x = dd$Time, y = dd$SentimentScore), data = dd) + geom_line(colour="#000099")  #
       #abline(v = c2_Subset_Data$SentimentScore, col = "palevioletred", lw = 2)
       
      # }
