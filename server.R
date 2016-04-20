@@ -22,85 +22,43 @@ shinyServer(function(input, output) {
   
   output$distPlot <- renderPlot({
   
-    fromdate <- reactive(input$datefrom)
-    todate <- reactive(input$dateto)
-    
-    c1_inds_op1 <- reactive(input$c1_inds_op1)
-    c1_inds_op2 <- reactive(input$c2_inds_op1)
-  
- 
     #################    
     #CHOICE ONE
     #################           
-        if(input$main_radioselection == 'Comparison of Two Industries')
-    {
-     data_c1_inds_op1_sub = reactive({
-                         a <- subset(Data_Sentiments, Industry %in% input$c1_inds_op1)
-                         a <- droplevels(a)
-                         return(a)
-                        })
-     data_c1_inds_op1 <- data_c1_inds_op1_sub()
-     
-
-      data_c1_inds_op2_sub = reactive({
-                         a <- subset(Data_Sentiments, Industry %in% input$c1_inds_op2)
-                         a <- droplevels(a)
-                         return(a)
-                          })
-     data_c1_inds_op2 <- data_c1_inds_op2_sub()
-
-     
-     
-     ####GUIDO INDUSTRY COMPARISON FUNCTION CALL
-     
-     
-     
-        }
-     #################    
-     #CHOICE TWO
-     #################    
-     else if (input$main_radioselection == 'Analysis of an Industry') {
-       
-       
-       
-       fromdate <- reactive(input$datefrom)
-       todate <- reactive(input$dateto)
-       c2_inds_op1 <- reactive(input$c2_inds_op1)
-       
-       if(input$c2_radioselection == 'Comparison' & input$c2_radioselection_s1 == 'Comparison between two brands'){}
-       
-       else if (input$c2_radioselection == 'Comparison' & input$c2_radioselection_s1 == 'Comparison between two categories'){}
-       
-       else if (input$c2_radioselection == 'Analysis' & input.c2_checkbox2_cat == true) {}
-       
-       else if (input$c2_radioselection == 'Analysis' & input.c2_checkbox2_brand == true) {}
-       
-       else if (input$c2_radioselection == 'Analysis' & input.c2_checkbox2_cat == true & input.c2_checkbox2_brand == true) {}
-       
-       else {}
-       
-     }
-     
-     #################    
-     #CHOICE THREE
-     #################    
-     else if (input$main_radioselection == 'Comparison of Two Brands') {
-       
-     }
-     
-     
-     #################    
-     #CHOICE FOUR
-     #################    
-     else if (input$main_radioselection == 'Analysis of a Brand') {
-       
-     }
-     
-     #################    
-     #CATCH ERROR
-     #################    
-     else {}
-     
+    if(input$main_radioselection == 'Comparison of Two Industries'){}
+    #################    
+    #CHOICE TWO
+    #################    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Comparison' & input$c2_radioselection_s1 == 'Comparison between two brands'){}
+    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Comparison' & input$c2_radioselection_s1 == 'Comparison between two categories'){}
+    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Analysis' & input$c2_checkbox2_cat == TRUE) {}
+    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Analysis' & input$c2_checkbox2_brand == TRUE) {}
+    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Analysis' & input$c2_checkbox2_cat == TRUE & input$c2_checkbox2_brand == TRUE) {}
+    
+    #################    
+    #CHOICE THREE
+    #################    
+    else if (input$main_radioselection == 'Comparison of Two Brands') {}
+    
+    #################    
+    #CHOICE FOUR
+    #################    
+    else if (input$main_radioselection == 'Analysis of a Brand' & input$c4_radioselection == 'Comparison') {}
+    
+    else if (input$main_radioselection == 'Analysis of a Brand' & input$c4_radioselection == 'Analysis' & input$c4_s2_cat == TRUE){}
+    
+    else if (input$main_radioselection == 'Analysis of a Brand' & input$c4_radioselection == 'Analysis' & input$c4_s2_cat == FALSE){}
+    
+    #################    
+    #CATCH ERROR
+    #################    
+    else {}
+    
+    
     #END OF RENDER PLOT
 })
   
@@ -118,7 +76,46 @@ shinyServer(function(input, output) {
   # Plot output
   ##############################################################################
   
-  output$distPlot <- renderPlot({})
+  output$distPlot <- renderPlot({
+    
+    #################    
+    #CHOICE ONE
+    #################           
+    if(input$main_radioselection == 'Comparison of Two Industries'){}
+    #################    
+    #CHOICE TWO
+    #################    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Comparison' & input$c2_radioselection_s1 == 'Comparison between two brands'){}
+    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Comparison' & input$c2_radioselection_s1 == 'Comparison between two categories'){}
+    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Analysis' & input$c2_checkbox2_cat == TRUE){}
+    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Analysis' & input$c2_checkbox2_brand == TRUE) {}
+    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Analysis' & input$c2_checkbox2_cat == TRUE & input$c2_checkbox2_brand == TRUE) {}
+    
+    #################    
+    #CHOICE THREE
+    #################    
+    else if (input$main_radioselection == 'Comparison of Two Brands') {}
+    
+    #################    
+    #CHOICE FOUR
+    #################    
+    else if (input$main_radioselection == 'Analysis of a Brand' & input$c4_radioselection == 'Comparison') {}
+    
+    else if (input$main_radioselection == 'Analysis of a Brand' & input$c4_radioselection == 'Analysis' & input$c4_s2_cat == TRUE){}
+    
+    else if (input$main_radioselection == 'Analysis of a Brand' & input$c4_radioselection == 'Analysis' & input$c4_s2_cat == FALSE){}
+    
+    #################    
+    #CATCH ERROR
+    #################    
+    else {}
+    
+    
+  })
   
   ##############################################################################  
   #END - DIMENSION ANALYSIS
@@ -132,7 +129,45 @@ shinyServer(function(input, output) {
   # Plot output
   ##############################################################################
   
-  output$WordCloud <- renderPlot({ })
+  output$WordCloud <- renderPlot({
+    
+    #################    
+    #CHOICE ONE
+    #################           
+    if(input$main_radioselection == 'Comparison of Two Industries'){}
+    #################    
+    #CHOICE TWO
+    #################    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Comparison' & input$c2_radioselection_s1 == 'Comparison between two brands'){}
+    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Comparison' & input$c2_radioselection_s1 == 'Comparison between two categories'){}
+    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Analysis' & input$c2_checkbox2_cat == TRUE) {}
+    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Analysis' & input$c2_checkbox2_brand == TRUE) {}
+    
+    else if (input$main_radioselection == 'Analysis of an Industry' & input$c2_radioselection == 'Analysis' & input$c2_checkbox2_cat == TRUE & input$c2_checkbox2_brand == TRUE) {}
+    
+    #################    
+    #CHOICE THREE
+    #################    
+    else if (input$main_radioselection == 'Comparison of Two Brands') {}
+    
+    #################    
+    #CHOICE FOUR
+    #################    
+    else if (input$main_radioselection == 'Analysis of a Brand' & input$c4_radioselection == 'Comparison') {}
+    
+    else if (input$main_radioselection == 'Analysis of a Brand' & input$c4_radioselection == 'Analysis' & input$c4_s2_cat == TRUE){}
+    
+    else if (input$main_radioselection == 'Analysis of a Brand' & input$c4_radioselection == 'Analysis' & input$c4_s2_cat == FALSE){}
+    
+    #################    
+    #CATCH ERROR
+    #################    
+    else {}
+    
+  })
   
   ##############################################################################  
   #END - WORD CLOUD
@@ -140,5 +175,22 @@ shinyServer(function(input, output) {
   # Plot output
   ##############################################################################
     
+  ##############################################################################  
+  #BEGIN - SALES RANK
+  # Output for the main panel (and the side panel for the confidence interval)
+  # Plot output
+  ##############################################################################
+  
+  output$SalesRank <- renderPlot({
+    
+  })
+  
+  ##############################################################################  
+  #END - SALES RANK
+  # Output for the main panel (and the side panel for the confidence interval)
+  # Plot output
+  ##############################################################################
+  
+  
     
 })
